@@ -7,15 +7,34 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+public struct ContentView: View {
+    @State private var isAuthenticated: Bool = AuthService.shared.isAuthenticated
+
+    public init() {}
+
+    public var body: some View {
+        Group {
+            if isAuthenticated {
+                HomeView()
+                    .transition(.opacity)
+            } else {
+                LoginView {
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        isAuthenticated = true
+                    }
+                }
+                .transition(.opacity)
+            }
         }
-        .padding()
+        .animation(.easeInOut(duration: 0.3), value: isAuthenticated)
+        .onReceive(NotificationCenter.default.publisher(for: .sessionDidExpire)) { _ in
+            withAnimation(.easeInOut(duration: 0.3)) {
+                isAuthenticated = false
+            }
+        }
+        .onAppear {
+            isAuthenticated = AuthService.shared.isAuthenticated
+        }
     }
 }
 
