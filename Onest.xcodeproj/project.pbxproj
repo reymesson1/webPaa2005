@@ -16,6 +16,11 @@
 			path = Onest;
 			sourceTree = "<group>";
 		};
+		35410999306F238A007C9BB4 /* OnestTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = OnestTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +36,7 @@
 			isa = PBXGroup;
 			children = (
 				35410953306F238A007C9BB4 /* Onest */,
+				35410999306F238A007C9BB4 /* OnestTests */,
 				35410952306F238A007C9BB4 /* Products */,
 			);
 			sourceTree = "<group>";
