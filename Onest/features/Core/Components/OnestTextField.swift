@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct OnestTextField: View {
-    public let label: String
+    public let label: String?
     public let placeholder: String
     public let icon: String
     public let isSecure: Bool
@@ -20,7 +20,7 @@ public struct OnestTextField: View {
     @State private var isShowingPassword: Bool = false
 
     public init(
-        label: String,
+        label: String? = nil,
         placeholder: String,
         icon: String,
         isSecure: Bool = false,
@@ -40,61 +40,70 @@ public struct OnestTextField: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(label)
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(OnestTheme.textSecondary)
+        VStack(alignment: .leading, spacing: 4) {
+            ZStack(alignment: .leading) {
+                // Outlined border container with pure white background
+                RoundedRectangle(cornerRadius: 14)
+                    .stroke(errorMessage != nil ? Color.red : OnestTheme.inputBorder, lineWidth: 1.5)
+                    .background(RoundedRectangle(cornerRadius: 14).fill(Color.white))
 
-            HStack(spacing: 12) {
-                Image(systemName: icon)
-                    .font(.system(size: 16))
-                    .foregroundColor(errorMessage != nil ? .red : OnestTheme.primary)
-                    .frame(width: 20)
+                // Field contents
+                HStack(spacing: 12) {
+                    Image(systemName: icon)
+                        .font(.system(size: 17, weight: .regular))
+                        .foregroundColor(OnestTheme.textPrimary)
+                        .frame(width: 22)
 
-                if isSecure && !isShowingPassword {
-                    SecureField(placeholder, text: $text)
-                        .textInputAutocapitalization(autocapitalization)
-                        .autocorrectionDisabled()
-                        .keyboardType(keyboardType)
-                } else {
-                    TextField(placeholder, text: $text)
-                        .textInputAutocapitalization(autocapitalization)
-                        .autocorrectionDisabled()
-                        .keyboardType(keyboardType)
-                }
-
-                if isSecure {
-                    Button(action: { isShowingPassword.toggle() }) {
-                        Image(systemName: isShowingPassword ? "eye.slash.fill" : "eye.fill")
+                    if isSecure && !isShowingPassword {
+                        SecureField(placeholder, text: $text)
                             .font(.system(size: 16))
-                            .foregroundColor(OnestTheme.textSecondary)
+                            .foregroundColor(OnestTheme.textPrimary)
+                            .textInputAutocapitalization(autocapitalization)
+                            .autocorrectionDisabled()
+                            .keyboardType(keyboardType)
+                    } else {
+                        TextField(placeholder, text: $text)
+                            .font(.system(size: 16))
+                            .foregroundColor(OnestTheme.textPrimary)
+                            .textInputAutocapitalization(autocapitalization)
+                            .autocorrectionDisabled()
+                            .keyboardType(keyboardType)
                     }
-                } else if !text.isEmpty {
-                    Button(action: { text = "" }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 15))
-                            .foregroundColor(OnestTheme.textSecondary)
+
+                    if isSecure {
+                        Button(action: { isShowingPassword.toggle() }) {
+                            Image(systemName: isShowingPassword ? "eye.slash" : "eye")
+                                .font(.system(size: 19, weight: .medium))
+                                .foregroundColor(OnestTheme.mintGreen)
+                        }
                     }
+                }
+                .padding(.horizontal, 16)
+
+                // Notch / Embedded border label
+                if let label = label, !label.isEmpty {
+                    Text(label)
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundColor(errorMessage != nil ? .red : OnestTheme.inputLabel)
+                        .padding(.horizontal, 6)
+                        .background(Color.white)
+                        .offset(x: 22, y: -27)
                 }
             }
-            .padding(.horizontal, 16)
-            .frame(height: 52)
-            .background(Color.white)
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(errorMessage != nil ? Color.red : OnestTheme.divider, lineWidth: 1.5)
-            )
-            .cornerRadius(12)
+            .frame(height: 54)
+            .padding(.top, label != nil ? 6 : 0)
 
+            // Inline error message
             if let errorMessage = errorMessage, !errorMessage.isEmpty {
                 HStack(spacing: 4) {
                     Image(systemName: "exclamationmark.circle.fill")
-                        .font(.system(size: 12))
+                        .font(.system(size: 11))
                     Text(errorMessage)
                         .font(.system(size: 12))
                 }
                 .foregroundColor(.red)
-                .padding(.leading, 4)
+                .padding(.leading, 8)
+                .padding(.top, 2)
             }
         }
     }

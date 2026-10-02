@@ -12,6 +12,7 @@ public enum OnestButtonStyle {
     case secondary
     case outline
     case destructive
+    case neutral
 }
 
 public struct OnestButton: View {
@@ -51,10 +52,10 @@ public struct OnestButton: View {
                 }
 
                 Text(title)
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.system(size: 16, weight: style == .neutral ? .regular : .bold))
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 52)
+            .frame(height: 54)
             .foregroundColor(foregroundColor)
             .background(backgroundColor)
             .overlay(
@@ -64,7 +65,7 @@ public struct OnestButton: View {
             .cornerRadius(14)
         }
         .disabled(!isEnabled || isLoading)
-        .opacity(isEnabled ? 1.0 : 0.5)
+        .opacity(style == .neutral ? 1.0 : (isEnabled ? 1.0 : 0.6))
     }
 
     private var backgroundColor: Color {
@@ -77,6 +78,8 @@ public struct OnestButton: View {
             return Color.clear
         case .destructive:
             return Color(red: 229/255, green: 57/255, blue: 53/255)
+        case .neutral:
+            return OnestTheme.buttonDisabled
         }
     }
 
@@ -88,6 +91,8 @@ public struct OnestButton: View {
             return OnestTheme.primaryDark
         case .outline:
             return OnestTheme.primary
+        case .neutral:
+            return OnestTheme.buttonText
         }
     }
 

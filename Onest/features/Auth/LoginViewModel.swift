@@ -10,7 +10,7 @@ import Combine
 
 @MainActor
 public final class LoginViewModel: ObservableObject {
-    @Published public var username: String = "usuario@onest.com"
+    @Published public var username: String = "reymesson@gmail.com"
     @Published public var password: String = "123456"
     @Published public var isLoading: Bool = false
     @Published public var errorMessage: String? = nil

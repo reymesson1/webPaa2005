@@ -67,7 +67,7 @@ public struct LoansListView: View {
                 .refreshable {
                     await viewModel.refreshLoans()
                 }
-                .background(OnestTheme.background.ignoresSafeArea())
+                .background(OnestTheme.appBackgroundGradient.ignoresSafeArea())
                 .navigationTitle("Mis Préstamos")
                 .navigationDestination(isPresented: Binding(
                     get: { selectedLoan != nil },
@@ -116,7 +116,7 @@ public struct LoansListView: View {
             VStack(alignment: .leading, spacing: 6) {
                 Text("Deuda Total Pendiente")
                     .font(.system(size: 12, weight: .medium))
-                    .foregroundColor(OnestTheme.primaryLight.opacity(0.9))
+                    .foregroundColor(Color.white.opacity(0.9))
 
                 Text(CurrencyFormatter.formatDOP(viewModel.totalBalancePending))
                     .font(.system(size: 24, weight: .bold, design: .rounded))
@@ -128,7 +128,7 @@ public struct LoansListView: View {
             VStack(alignment: .trailing, spacing: 6) {
                 Text("Activos")
                     .font(.system(size: 12, weight: .medium))
-                    .foregroundColor(OnestTheme.primaryLight.opacity(0.9))
+                    .foregroundColor(Color.white.opacity(0.9))
 
                 Text("\(viewModel.activeLoansCount)")
                     .font(.system(size: 24, weight: .bold, design: .rounded))
@@ -138,13 +138,13 @@ public struct LoansListView: View {
         .padding(20)
         .background(
             LinearGradient(
-                colors: [OnestTheme.primary, OnestTheme.primaryDark],
+                colors: [OnestTheme.mintGreen, OnestTheme.primary],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
         )
         .cornerRadius(20)
-        .shadow(color: OnestTheme.primary.opacity(0.2), radius: 10, x: 0, y: 5)
+        .shadow(color: OnestTheme.mintGreen.opacity(0.3), radius: 10, x: 0, y: 5)
     }
 
     private var filterSection: some View {
@@ -173,8 +173,8 @@ public struct LoansListView: View {
                 .font(.system(size: 13, weight: isSelected ? .bold : .medium))
                 .padding(.horizontal, 14)
                 .padding(.vertical, 8)
-                .foregroundColor(isSelected ? .white : OnestTheme.textSecondary)
-                .background(isSelected ? OnestTheme.primary : OnestTheme.cardBackground)
+                .foregroundColor(isSelected ? OnestTheme.textPrimary : OnestTheme.textSecondary)
+                .background(isSelected ? OnestTheme.mintGreen : OnestTheme.cardBackground)
                 .clipShape(Capsule())
                 .overlay(
                     Capsule()

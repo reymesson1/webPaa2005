@@ -18,7 +18,7 @@
 2. Selecciona el esquema **Onest** y cualquier simulador de iPhone con **iOS 16.0 o superior** (o dispositivo físico).
 3. Presiona **Cmd + R** para compilar y ejecutar.
 4. En la pantalla de Login, puedes usar los botones de acceso rápido para probar inmediatamente los flujos:
-   - **Credenciales válidas (200)**: `usuario@onest.com` / `123456`
+   - **Credenciales válidas (200)**: `reymesson@gmail.com` / `123456`
    - **Credenciales inválidas (401)**: `invalido@onest.com` / `invalid`
 
 ### Ejecución de la Suite de Pruebas Unitarias
