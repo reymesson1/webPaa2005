@@ -13,6 +13,7 @@ public struct HomeView: View {
     @State private var showingLogoutAlert: Bool = false
     @State private var isPresentingNewLoan: Bool = false
     @State private var isShowingProfile: Bool = false
+    @State private var isShowingQuickActionsSheet: Bool = false
 
     private let authService: AuthServiceProtocol
     private let tokenStorage: TokenStorageProtocol
@@ -132,11 +133,16 @@ public struct HomeView: View {
                     .tint(OnestTheme.primary)
                     .onChange(of: selectedTab) { newTab in
                         if newTab == 2 {
-                            isPresentingNewLoan = true
+                            isShowingQuickActionsSheet = true
                             selectedTab = previousTab
                         } else {
                             previousTab = newTab
                         }
+                    }
+                    .sheet(isPresented: $isShowingQuickActionsSheet) {
+                        quickActionsSheetView
+                            .presentationDetents([.height(230), .fraction(0.3)])
+                            .presentationDragIndicator(.visible)
                     }
                 }
             }
@@ -478,11 +484,11 @@ public struct HomeView: View {
             }
 
             OnestButton(
-                title: "Iniciar Solicitud",
-                icon: "sparkles",
+                title: "Ver Opciones",
+                icon: "dollarsign.circle.fill",
                 style: .primary
             ) {
-                isPresentingNewLoan = true
+                isShowingQuickActionsSheet = true
             }
             .padding(.horizontal, 32)
             .padding(.top, 12)
@@ -491,6 +497,83 @@ public struct HomeView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(OnestTheme.appBackgroundGradient.ignoresSafeArea())
+    }
+
+    // MARK: - Quick Actions Small Sheet (Enviar & Recibir)
+    private var quickActionsSheetView: some View {
+        VStack(spacing: 16) {
+            Text("Operaciones")
+                .font(.system(size: 16, weight: .bold))
+                .foregroundColor(OnestTheme.textPrimary)
+                .padding(.top, 16)
+
+            VStack(spacing: 12) {
+                // Button 1: Enviar with dollar sign icon on the left
+                Button {
+                    isShowingQuickActionsSheet = false
+                } label: {
+                    HStack(spacing: 14) {
+                        Image(systemName: "dollarsign.circle.fill")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(OnestTheme.primary)
+
+                        Text("Enviar")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(OnestTheme.textPrimary)
+
+                        Spacer()
+
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(OnestTheme.textSecondary.opacity(0.4))
+                    }
+                    .padding(.horizontal, 16)
+                    .frame(height: 54)
+                    .background(Color.white)
+                    .cornerRadius(14)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(OnestTheme.divider, lineWidth: 1)
+                    )
+                }
+
+                // Button 2: Recibir with dollar sign icon on the left
+                Button {
+                    isShowingQuickActionsSheet = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                        isPresentingNewLoan = true
+                    }
+                } label: {
+                    HStack(spacing: 14) {
+                        Image(systemName: "dollarsign.circle.fill")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(OnestTheme.mintGreen)
+
+                        Text("Recibir")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(OnestTheme.textPrimary)
+
+                        Spacer()
+
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(OnestTheme.textSecondary.opacity(0.4))
+                    }
+                    .padding(.horizontal, 16)
+                    .frame(height: 54)
+                    .background(Color.white)
+                    .cornerRadius(14)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(OnestTheme.divider, lineWidth: 1)
+                    )
+                }
+            }
+            .padding(.horizontal, 20)
+
+            Spacer()
+        }
+        .background(OnestTheme.background.ignoresSafeArea())
     }
 
     // MARK: - Tab 5: Premios ('trofeum')
