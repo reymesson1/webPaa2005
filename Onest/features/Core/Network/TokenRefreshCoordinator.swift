@@ -46,7 +46,7 @@ public actor TokenRefreshCoordinator {
             return try await existingTask.value
         }
 
-        let task = Task<String, Error> { [tokenStorage, session] () -> String in
+        let task = Task<String, Error> { [weak self, tokenStorage, session] () -> String in
             defer {
                 Task { [weak self] in
                     await self?.clearInFlightTask()
