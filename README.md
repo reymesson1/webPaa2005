@@ -2,7 +2,7 @@
 
 **Examen Práctico Desarrollador iOS — Onest Financial**  
 *Septiembre / Octubre 2026*  
-**Candidato:** Ricardo Messon  
+**Candidato:** Rey Messon  
 **Stack:** Swift 5.9+, SwiftUI, iOS 16+, Swift Concurrency (`async/await`, `actor`), Apple Native Security (Keychain).  
 **Dependencias externas:** 0 (Cero dependencias de terceros; 100% frameworks nativos de Apple).
 
